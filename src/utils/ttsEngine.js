@@ -1,5 +1,5 @@
-// Direct Client-side Zalo AI Text-To-Speech Engine with Sentence Chunking & Caching
-// ABSOLUTELY NO WebSpeech API / Robot Voice Fallback
+// Zalo AI Text-To-Speech Engine via /api/tts Endpoint
+// ABSOLUTELY ZERO window.speechSynthesis or Web Speech API
 
 const audioCache = {};
 
@@ -48,7 +48,6 @@ export class TTSEngine {
     return result;
   }
 
-  // Nạp bài giảng và chuẩn bị hàng đợi
   loadQueue(fullText) {
     this.stop();
     this.audioQueue = this.splitIntoSentences(fullText);
@@ -59,7 +58,6 @@ export class TTSEngine {
     return this.audioQueue;
   }
 
-  // Bắt đầu phát từ đầu hàng đợi Zalo AI
   startQueue(onProgress, onEnd, onError) {
     if (this.audioQueue.length === 0) return;
 
@@ -97,7 +95,7 @@ export class TTSEngine {
       });
     }
 
-    // 1. Kiểm tra Cache âm thanh trước
+    // 1. Kiểm tra Audio Cache trước
     if (audioCache[currentText]) {
       this.isLoading = false;
       if (this.isPlaying && !this.isPaused) {
@@ -106,40 +104,34 @@ export class TTSEngine {
       return;
     }
 
-    // 2. Gọi trực tiếp API Zalo AI từ Client (KHÔNG qua proxy)
+    // 2. Gọi API /api/tts (Phương thức POST)
     try {
-      const response = await fetch("https://api.zalo.ai/v1/tts/synthesize", {
+      const response = await fetch("/api/tts", {
         method: "POST",
         headers: {
-          "apikey": "54IY1Y4zgI6DStypp6Y6Qw2kgC5JLD6T",
-          "Content-Type": "application/x-www-form-urlencoded"
+          "Content-Type": "application/json"
         },
-        body: new URLSearchParams({
-          input: currentText,
-          speaker_id: "1", // Nữ Bắc chuẩn sư phạm
-          speed: "0.95",
-          encode_type: "0"
-        })
+        body: JSON.stringify({ text: currentText })
       });
 
       const data = await response.json();
 
       if (data.error_code === 0 && data.data?.url) {
-        // Lưu vào cache
+        // Lưu cache URL
         audioCache[currentText] = data.data.url;
         this.isLoading = false;
         if (this.isPlaying && !this.isPaused) {
           this.playAudioUrl(data.data.url, currentText);
         }
       } else {
-        const errorMsg = `Lỗi Zalo TTS (${data.error_code}): ${data.message || 'Không thể tạo âm thanh Zalo AI'}`;
-        console.error(errorMsg, data);
+        const errorMsg = "Lỗi Zalo API: " + JSON.stringify(data);
+        console.error(errorMsg);
         alert(errorMsg);
         this.stop();
         if (this.onErrorCallback) this.onErrorCallback(errorMsg);
       }
     } catch (err) {
-      const errorMsg = "Lỗi kết nối Zalo AI API: " + err.message;
+      const errorMsg = "Lỗi kết nối Zalo API: " + err.message;
       console.error(errorMsg, err);
       alert(errorMsg);
       this.stop();
@@ -182,7 +174,7 @@ export class TTSEngine {
     };
 
     audio.onerror = (e) => {
-      console.error("Lỗi phát audio MP3 từ Zalo AI:", e);
+      console.error("Lỗi phát file MP3 Zalo AI:", e);
       if (this.isPlaying && !this.isPaused) {
         this.currentIndex++;
         this.playNextInQueue();
