@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Volume2, Pause, Play, RotateCcw, FastForward, GraduationCap, BookOpen, SkipForward } from 'lucide-react';
+import { Volume2, Pause, Play, RotateCcw, FastForward, GraduationCap, BookOpen, SkipForward, Loader2 } from 'lucide-react';
 import { teacherSpeech } from '../utils/teacherSpeech';
 import { getDeepLecture } from '../data/lectures';
 import { soundFx } from '../utils/soundEffects';
@@ -17,7 +17,9 @@ export default function TeacherLectureModal({
     totalSentences: 1,
     progressPercent: 0,
     currentSentenceText: '',
-    sentences: []
+    sentences: [],
+    isLoading: false,
+    statusMessage: ''
   });
 
   const activeSentenceRef = useRef(null);
@@ -48,7 +50,9 @@ export default function TeacherLectureModal({
         totalSentences: sentences.length,
         progressPercent: 0,
         currentSentenceText: sentences[0] || '',
-        sentences: sentences
+        sentences: sentences,
+        isLoading: false,
+        statusMessage: ''
       });
     } else {
       teacherSpeech.stop();
@@ -81,6 +85,10 @@ export default function TeacherLectureModal({
         setProgressState(progress);
       },
       () => {
+        setIsPlaying(false);
+        setIsPaused(false);
+      },
+      (errorMsg) => {
         setIsPlaying(false);
         setIsPaused(false);
       }
@@ -133,7 +141,7 @@ export default function TeacherLectureModal({
             </div>
             <div>
               <span className="text-[10px] sm:text-xs font-black tracking-widest uppercase text-amber-400 bg-amber-950/80 px-2 py-0.5 rounded border border-amber-800">
-                LỚP HỌC ĐẶC BIỆT • BÀI GIẢNG CHUYÊN SÂU
+                LỚP HỌC ĐẶC BIỆT • BÀI GIẢNG CHUYÊN SÂU ZALO AI
               </span>
               <h2 className="text-sm sm:text-lg font-black text-amber-200 tracking-wide text-glow-gold mt-0.5">
                 BÍ KÍP TỪ CÔ GIÁO SỬ - ĐỊA
@@ -176,12 +184,12 @@ export default function TeacherLectureModal({
                   Ôn lại kiến thức: {stage.stage_title}
                 </h3>
                 <p className="text-[11px] text-slate-400 font-mono">
-                  Ải #{stage.stage_id} • Đề thi Vào 10 Chuyên Đề trọng tâm
+                  Ải #{stage.stage_id} • Giọng Nữ Bắc Zalo AI Chuẩn Sư Phạm
                 </p>
               </div>
             </div>
 
-            {/* Audio Start / Toggle Button (Prominent User Gesture Button) */}
+            {/* Audio Start / Toggle Button */}
             <div className="flex items-center gap-2">
               {!isPlaying ? (
                 <button
@@ -191,11 +199,19 @@ export default function TeacherLectureModal({
                   <Volume2 className="w-4 h-4" />
                   <span>🔊 BẮT ĐẦU NGHE CÔ GIẢNG BÀI</span>
                 </button>
+              ) : progressState.isLoading ? (
+                <button
+                  disabled
+                  className="flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-600/90 text-slate-950 font-black text-xs uppercase tracking-wider opacity-90 cursor-wait border-2 border-white shadow-md animate-pulse"
+                >
+                  <Loader2 className="w-4 h-4 animate-spin text-slate-950" />
+                  <span>⏳ Đang tải giọng cô giáo...</span>
+                </button>
               ) : (
                 <div className="flex items-center gap-1.5">
                   <button
                     onClick={handleTogglePause}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs transition active:scale-95 shadow-md"
+                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs transition active:scale-95 shadow-md font-bold"
                   >
                     {isPaused ? (
                       <>
@@ -225,7 +241,9 @@ export default function TeacherLectureModal({
           {/* Audio Progress Bar */}
           <div className="space-y-1">
             <div className="flex justify-between items-center text-[10px] font-mono font-bold text-amber-300">
-              <span>TIẾN TRÌNH BÀI GIẢNG</span>
+              <span>
+                {progressState.isLoading ? '⏳ ĐANG TẢI GIỌNG ZALO AI...' : 'TIẾN TRÌNH BÀI GIẢNG'}
+              </span>
               <span>
                 {isPlaying ? progressState.currentIndex + 1 : 0} / {progressState.totalSentences || 1} Câu ({isPlaying ? progressState.progressPercent : 0}%)
               </span>

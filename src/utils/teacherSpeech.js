@@ -5,8 +5,8 @@ class TeacherSpeechManager {
     return ttsEngine.loadQueue(fullText);
   }
 
-  startSpeaking(onProgress, onEnd) {
-    ttsEngine.startQueue(onProgress, onEnd);
+  startSpeaking(onProgress, onEnd, onError) {
+    ttsEngine.startQueue(onProgress, onEnd, onError);
   }
 
   pause() {

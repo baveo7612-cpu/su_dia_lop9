@@ -1,4 +1,7 @@
-// Pure Zalo AI Audio TTS Engine with Audio Queue & Sentence Chunking
+// Direct Client-side Zalo AI Text-To-Speech Engine with Sentence Chunking & Caching
+// ABSOLUTELY NO WebSpeech API / Robot Voice Fallback
+
+const audioCache = {};
 
 export class TTSEngine {
   constructor() {
@@ -6,12 +9,14 @@ export class TTSEngine {
     this.currentIndex = 0;
     this.isPlaying = false;
     this.isPaused = false;
+    this.isLoading = false;
     this.currentAudio = null;
     this.onProgressCallback = null;
     this.onEndCallback = null;
+    this.onErrorCallback = null;
   }
 
-  // Tách văn bản bài giảng dài thành các câu ngắn dưới 180-200 ký tự (theo dấu ., !, ?, \n)
+  // Tách văn bản bài giảng dài thành các câu ngắn dưới 180 ký tự
   splitIntoSentences(text) {
     if (!text) return [];
 
@@ -26,7 +31,6 @@ export class TTSEngine {
       if (sentence.length <= 180) {
         result.push(sentence);
       } else {
-        // Tách tiếp theo dấu phẩy, chấm phẩy
         const parts = sentence.split(/(?<=[,;])\s+/).filter(p => p.trim().length > 0);
         let current = '';
         for (let part of parts) {
@@ -44,25 +48,28 @@ export class TTSEngine {
     return result;
   }
 
-  // Nạp bài giảng dài và khởi tạo hàng đợi âm thanh
+  // Nạp bài giảng và chuẩn bị hàng đợi
   loadQueue(fullText) {
     this.stop();
     this.audioQueue = this.splitIntoSentences(fullText);
     this.currentIndex = 0;
     this.isPlaying = false;
     this.isPaused = false;
+    this.isLoading = false;
     return this.audioQueue;
   }
 
-  // Bắt đầu phát từ đầu hàng đợi
-  startQueue(onProgress, onEnd) {
+  // Bắt đầu phát từ đầu hàng đợi Zalo AI
+  startQueue(onProgress, onEnd, onError) {
     if (this.audioQueue.length === 0) return;
 
     this.stop();
     this.isPlaying = true;
     this.isPaused = false;
+    this.isLoading = false;
     this.onProgressCallback = onProgress;
     this.onEndCallback = onEnd;
+    this.onErrorCallback = onError;
 
     this.playNextInQueue();
   }
@@ -76,46 +83,89 @@ export class TTSEngine {
 
     const currentText = this.audioQueue[this.currentIndex];
 
-    // Cập nhật tiến trình cho UI (highlight câu đang đọc & thanh tiến trình)
+    // Cập nhật trạng thái "Đang tải giọng cô giáo..." cho UI
+    this.isLoading = true;
     if (this.onProgressCallback) {
       this.onProgressCallback({
         currentIndex: this.currentIndex,
         totalSentences: this.audioQueue.length,
         progressPercent: Math.round(((this.currentIndex + 1) / this.audioQueue.length) * 100),
         currentSentenceText: currentText,
-        sentences: this.audioQueue
+        sentences: this.audioQueue,
+        isLoading: true,
+        statusMessage: "Đang tải giọng cô giáo..."
       });
     }
 
-    // Gọi API Zalo AI lấy Audio URL cho câu hiện tại (100% Zalo AI Voice)
-    try {
-      const res = await fetch(`/api/zalo-tts?text=${encodeURIComponent(currentText)}`);
-      if (res.ok) {
-        const data = await res.json();
-        if (data.url && this.isPlaying) {
-          this.playAudioUrl(data.url);
-          return;
-        }
+    // 1. Kiểm tra Cache âm thanh trước
+    if (audioCache[currentText]) {
+      this.isLoading = false;
+      if (this.isPlaying && !this.isPaused) {
+        this.playAudioUrl(audioCache[currentText], currentText);
       }
-    } catch (err) {
-      console.warn("Zalo AI TTS fetch error for sentence:", err);
+      return;
     }
 
-    // Nếu lỗi API, tự động sang câu tiếp theo sau 1.5s (KHÔNG DÙNG GIỌNG ROBOT MÁY)
-    if (this.isPlaying && !this.isPaused) {
-      setTimeout(() => {
-        this.currentIndex++;
-        this.playNextInQueue();
-      }, 1500);
+    // 2. Gọi trực tiếp API Zalo AI từ Client (KHÔNG qua proxy)
+    try {
+      const response = await fetch("https://api.zalo.ai/v1/tts/synthesize", {
+        method: "POST",
+        headers: {
+          "apikey": "54IY1Y4zgI6DStypp6Y6Qw2kgC5JLD6T",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: new URLSearchParams({
+          input: currentText,
+          speaker_id: "1", // Nữ Bắc chuẩn sư phạm
+          speed: "0.95",
+          encode_type: "0"
+        })
+      });
+
+      const data = await response.json();
+
+      if (data.error_code === 0 && data.data?.url) {
+        // Lưu vào cache
+        audioCache[currentText] = data.data.url;
+        this.isLoading = false;
+        if (this.isPlaying && !this.isPaused) {
+          this.playAudioUrl(data.data.url, currentText);
+        }
+      } else {
+        const errorMsg = `Lỗi Zalo TTS (${data.error_code}): ${data.message || 'Không thể tạo âm thanh Zalo AI'}`;
+        console.error(errorMsg, data);
+        alert(errorMsg);
+        this.stop();
+        if (this.onErrorCallback) this.onErrorCallback(errorMsg);
+      }
+    } catch (err) {
+      const errorMsg = "Lỗi kết nối Zalo AI API: " + err.message;
+      console.error(errorMsg, err);
+      alert(errorMsg);
+      this.stop();
+      if (this.onErrorCallback) this.onErrorCallback(errorMsg);
     }
   }
 
-  playAudioUrl(url) {
+  playAudioUrl(url, currentText) {
     if (this.currentAudio) {
       try {
         this.currentAudio.pause();
       } catch {}
       this.currentAudio = null;
+    }
+
+    this.isLoading = false;
+    if (this.onProgressCallback) {
+      this.onProgressCallback({
+        currentIndex: this.currentIndex,
+        totalSentences: this.audioQueue.length,
+        progressPercent: Math.round(((this.currentIndex + 1) / this.audioQueue.length) * 100),
+        currentSentenceText: currentText,
+        sentences: this.audioQueue,
+        isLoading: false,
+        statusMessage: "Đang giảng bài..."
+      });
     }
 
     const audio = new Audio(url);
@@ -132,22 +182,18 @@ export class TTSEngine {
     };
 
     audio.onerror = (e) => {
-      console.warn("Audio stream playback error:", e);
+      console.error("Lỗi phát audio MP3 từ Zalo AI:", e);
       if (this.isPlaying && !this.isPaused) {
-        setTimeout(() => {
-          this.currentIndex++;
-          this.playNextInQueue();
-        }, 1500);
+        this.currentIndex++;
+        this.playNextInQueue();
       }
     };
 
     audio.play().catch(err => {
-      console.warn("Audio play blocked or failed:", err);
+      console.error("Phát âm thanh bị chặn bởi Autoplay Policy:", err);
       if (this.isPlaying && !this.isPaused) {
-        setTimeout(() => {
-          this.currentIndex++;
-          this.playNextInQueue();
-        }, 1500);
+        this.currentIndex++;
+        this.playNextInQueue();
       }
     });
   }
@@ -177,6 +223,7 @@ export class TTSEngine {
   stop() {
     this.isPlaying = false;
     this.isPaused = false;
+    this.isLoading = false;
     this.currentIndex = 0;
     this.audioQueue = [];
 
