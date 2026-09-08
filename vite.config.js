@@ -15,6 +15,8 @@ const zaloHandler = async (req, res) => {
     return res.end();
   }
 
+  const zaloApiKey = process.env.ZALO_API_KEY || "54IY1Y4zgI6DStypp6Y6Qw2kgC5JLD6T";
+
   let bodyText = '';
   req.on('data', chunk => { bodyText += chunk; });
   req.on('end', async () => {
@@ -47,15 +49,15 @@ const zaloHandler = async (req, res) => {
 
     try {
       const payload = new URLSearchParams();
-      payload.append("input", text.substring(0, 500));
+      payload.append("input", text.substring(0, 300));
       payload.append("speaker_id", "1"); // Nữ Bắc chuẩn
       payload.append("speed", "0.95");
-      payload.append("encode_type", "0");
+      payload.append("encode_type", "1");
 
       const zaloRes = await fetch("https://api.zalo.ai/v1/tts/synthesize", {
         method: "POST",
         headers: {
-          "apikey": "54IY1Y4zgI6DStypp6Y6Qw2kgC5JLD6T",
+          "apikey": zaloApiKey,
           "Content-Type": "application/x-www-form-urlencoded"
         },
         body: payload.toString()
@@ -70,7 +72,7 @@ const zaloHandler = async (req, res) => {
         return res.end(JSON.stringify(data));
       }
 
-      const googleFallbackUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=vi&client=tw-ob&q=${encodeURIComponent(text)}`;
+      const googleFallbackUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=vi&client=tw-ob&q=${encodeURIComponent(text.slice(0, 200))}`;
       return res.end(JSON.stringify({
         error_code: 0,
         fallback: true,
@@ -80,7 +82,7 @@ const zaloHandler = async (req, res) => {
     } catch (error) {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json');
-      const googleFallbackUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=vi&client=tw-ob&q=${encodeURIComponent(text || "Bài giảng cô giáo")}`;
+      const googleFallbackUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=vi&client=tw-ob&q=${encodeURIComponent(text.slice(0, 200) || "Bài giảng cô giáo")}`;
       return res.end(JSON.stringify({
         error_code: 0,
         fallback: true,

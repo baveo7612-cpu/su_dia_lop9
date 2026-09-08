@@ -1,6 +1,6 @@
-// High Reliability Vietnamese Audio TTS Engine
-// Primary: Zalo AI TTS via /api/zalo-tts (with Google Audio fallback)
-// Tertiary Fallback: Web Speech API (window.speechSynthesis with lang: 'vi-VN')
+// Reliable Vietnamese Audio TTS Engine
+// Primary: Zalo AI TTS via /api/zalo-tts (with Google Audio stream fallback)
+// Fallback: Web Speech API (window.speechSynthesis with lang: 'vi-VN')
 
 const audioCache = {};
 
@@ -132,10 +132,10 @@ export class TTSEngine {
         }
       }
     } catch (e) {
-      console.warn("GET /api/zalo-tts failed, trying POST...", e);
+      console.warn("GET /api/zalo-tts error:", e);
     }
 
-    // Try POST as secondary
+    // Try POST
     try {
       const res = await fetch("/api/zalo-tts", {
         method: "POST",
@@ -150,7 +150,7 @@ export class TTSEngine {
         }
       }
     } catch (e) {
-      console.warn("POST /api/zalo-tts failed:", e);
+      console.warn("POST /api/zalo-tts error:", e);
     }
 
     // Direct Google TTS fallback stream URL if backend endpoint fails
@@ -188,8 +188,8 @@ export class TTSEngine {
 
       this.playAudioUrl(audioUrl, currentText);
     } catch (err) {
-      console.warn("Audio queue fetch exception, attempting WebSpeech fallback:", err);
-      this.speakWebSpeech(currentText);
+      console.warn("Audio queue fetch exception, fallback to WebSpeech:", err);
+      this.speakFallback(currentText);
     }
   }
 
@@ -228,62 +228,57 @@ export class TTSEngine {
     };
 
     audio.onerror = (e) => {
-      console.warn("Audio MP3 playback error, attempting WebSpeech fallback:", e);
-      this.speakWebSpeech(currentText);
+      console.warn("Audio MP3 playback error, fallback to WebSpeech:", e);
+      this.speakFallback(currentText);
     };
 
     audio.play().catch(err => {
-      console.warn("Audio play blocked or error, attempting WebSpeech fallback:", err);
-      this.speakWebSpeech(currentText);
+      console.warn("Audio play blocked or error, fallback to WebSpeech:", err);
+      this.speakFallback(currentText);
     });
   }
 
-  speakWebSpeech(text) {
-    if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
-      if (this.isPlaying && !this.isPaused) {
-        this.currentIndex++;
-        setTimeout(() => this.playNextInQueue(), 1500);
-      }
-      return;
+  speakFallback(text) {
+    this.isLoading = false;
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      try {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'vi-VN';
+        utterance.rate = 0.95;
+
+        const viVoice = this.getVietnameseVoice();
+        if (viVoice) utterance.voice = viVoice;
+
+        let handled = false;
+        utterance.onend = () => {
+          if (!handled) {
+            handled = true;
+            if (this.isPlaying && !this.isPaused) {
+              this.currentIndex++;
+              this.playNextInQueue();
+            }
+          }
+        };
+
+        utterance.onerror = () => {
+          if (!handled) {
+            handled = true;
+            if (this.isPlaying && !this.isPaused) {
+              this.currentIndex++;
+              setTimeout(() => this.playNextInQueue(), 1500);
+            }
+          }
+        };
+
+        window.speechSynthesis.speak(utterance);
+        return;
+      } catch {}
     }
 
-    try {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'vi-VN';
-      utterance.rate = 0.95;
-      utterance.pitch = 1.0;
-
-      const viVoice = this.getVietnameseVoice();
-      if (viVoice) utterance.voice = viVoice;
-
-      let handled = false;
-      utterance.onend = () => {
-        if (!handled) {
-          handled = true;
-          if (this.isPlaying && !this.isPaused) {
-            this.currentIndex++;
-            this.playNextInQueue();
-          }
-        }
-      };
-
-      utterance.onerror = () => {
-        if (!handled) {
-          handled = true;
-          if (this.isPlaying && !this.isPaused) {
-            this.currentIndex++;
-            setTimeout(() => this.playNextInQueue(), 1500);
-          }
-        }
-      };
-
-      window.speechSynthesis.speak(utterance);
-    } catch {
-      if (this.isPlaying && !this.isPaused) {
-        this.currentIndex++;
-        setTimeout(() => this.playNextInQueue(), 1500);
-      }
+    if (this.isPlaying && !this.isPaused) {
+      this.currentIndex++;
+      setTimeout(() => this.playNextInQueue(), 1500);
     }
   }
 
@@ -309,7 +304,11 @@ export class TTSEngine {
           this.playNextInQueue();
         });
       } else if (typeof window !== 'undefined' && 'speechSynthesis' in window && window.speechSynthesis.paused) {
-        window.speechSynthesis.resume();
+        try {
+          window.speechSynthesis.resume();
+        } catch {
+          this.playNextInQueue();
+        }
       } else {
         this.playNextInQueue();
       }
