@@ -1,5 +1,5 @@
-// Zalo AI Text-To-Speech Engine via /api/tts Endpoint
-// ABSOLUTELY ZERO window.speechSynthesis or Web Speech API
+// Pure Zalo AI Text-To-Speech Engine via /api/zalo-tts Endpoint
+// ABSOLUTELY ZERO window.speechSynthesis or WebSpeech API
 
 const audioCache = {};
 
@@ -16,29 +16,42 @@ export class TTSEngine {
     this.onErrorCallback = null;
   }
 
-  // Tách văn bản bài giảng dài thành các câu ngắn dưới 180 ký tự
+  // Làm sạch văn bản: Loại bỏ ký tự đặc biệt, markdown để tránh Zalo API bị treo / lỗi 404
+  cleanTextForZalo(text) {
+    if (!text) return '';
+    return text
+      .replace(/[*#_~`@$%^&()[\]{}|\\/<>+=]/g, ' ') // Xóa ký tự đặc biệt
+      .replace(/[\n\r]+/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  // Tách bài giảng dài thành các câu siêu ngắn (dưới 100-120 ký tự)
   splitIntoSentences(text) {
     if (!text) return [];
 
-    const rawSentences = text
-      .split(/(?<=[.!?\n])\s+/)
-      .map(s => s.replace(/[\n\r]+/g, ' ').trim())
+    const cleanFull = text.replace(/[\r\n]+/g, '. ');
+    const rawSentences = cleanFull
+      .split(/(?<=[.!?])\s+/)
+      .map(s => this.cleanTextForZalo(s))
       .filter(s => s.length > 0);
 
     const result = [];
 
     for (let sentence of rawSentences) {
-      if (sentence.length <= 180) {
+      if (sentence.length <= 110) {
         result.push(sentence);
       } else {
+        // Tách tiếp theo dấu phẩy, chấm phẩy
         const parts = sentence.split(/(?<=[,;])\s+/).filter(p => p.trim().length > 0);
         let current = '';
         for (let part of parts) {
-          if ((current + ' ' + part).trim().length <= 180) {
-            current = (current + ' ' + part).trim();
+          const cleanPart = this.cleanTextForZalo(part);
+          if ((current + ' ' + cleanPart).trim().length <= 110) {
+            current = (current + ' ' + cleanPart).trim();
           } else {
             if (current) result.push(current);
-            current = part.trim();
+            current = cleanPart;
           }
         }
         if (current) result.push(current);
@@ -91,7 +104,7 @@ export class TTSEngine {
         currentSentenceText: currentText,
         sentences: this.audioQueue,
         isLoading: true,
-        statusMessage: "Đang tải giọng cô giáo..."
+        statusMessage: "Đang tải giọng cô giáo Zalo AI..."
       });
     }
 
@@ -104,9 +117,9 @@ export class TTSEngine {
       return;
     }
 
-    // 2. Gọi API /api/tts (Phương thức POST)
+    // 2. Gọi API /api/zalo-tts (Phương thức POST)
     try {
-      const response = await fetch("/api/tts", {
+      const response = await fetch("/api/zalo-tts", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -117,7 +130,6 @@ export class TTSEngine {
       const data = await response.json();
 
       if (data.error_code === 0 && data.data?.url) {
-        // Lưu cache URL
         audioCache[currentText] = data.data.url;
         this.isLoading = false;
         if (this.isPlaying && !this.isPaused) {
@@ -131,7 +143,7 @@ export class TTSEngine {
         if (this.onErrorCallback) this.onErrorCallback(errorMsg);
       }
     } catch (err) {
-      const errorMsg = "Lỗi kết nối Zalo API: " + err.message;
+      const errorMsg = "Lỗi kết nối /api/zalo-tts: " + err.message;
       console.error(errorMsg, err);
       alert(errorMsg);
       this.stop();
@@ -174,19 +186,18 @@ export class TTSEngine {
     };
 
     audio.onerror = (e) => {
-      console.error("Lỗi phát file MP3 Zalo AI:", e);
-      if (this.isPlaying && !this.isPaused) {
-        this.currentIndex++;
-        this.playNextInQueue();
-      }
+      const errorMsg = "Lỗi 404 khi tải file âm thanh Zalo AI: " + url;
+      console.error(errorMsg, e);
+      alert(errorMsg);
+      this.stop();
+      if (this.onErrorCallback) this.onErrorCallback(errorMsg);
     };
 
     audio.play().catch(err => {
       console.error("Phát âm thanh bị chặn bởi Autoplay Policy:", err);
-      if (this.isPlaying && !this.isPaused) {
-        this.currentIndex++;
-        this.playNextInQueue();
-      }
+      alert("Phát âm thanh bị chặn. Vui lòng bấm vào nút 'Nghe cô giảng bài' lần nữa.");
+      this.stop();
+      if (this.onErrorCallback) this.onErrorCallback(err.message);
     });
   }
 

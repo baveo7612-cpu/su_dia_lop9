@@ -9,13 +9,15 @@ export default async function handler(req, res) {
     try { text = JSON.parse(req.body).text; } catch {}
   }
 
-  if (!text) return res.status(400).json({ error: "Missing text" });
+  if (!text) {
+    return res.status(400).json({ error: "Missing text parameter" });
+  }
 
   try {
     const params = new URLSearchParams();
     params.append("input", text);
     params.append("speaker_id", "1"); // Nữ miền Bắc
-    params.append("speed", "0.95");
+    params.append("speed", "0.9");
     params.append("encode_type", "0");
 
     const response = await fetch("https://api.zalo.ai/v1/tts/synthesize", {
@@ -27,9 +29,14 @@ export default async function handler(req, res) {
       body: params.toString()
     });
 
-    const data = await response.json();
-    return res.status(200).json(data);
+    const data = await response.json().catch(() => ({ error_code: 500, message: "Zalo API invalid response" }));
+
+    if (data.error_code === 0 && data.data?.url) {
+      return res.status(200).json(data);
+    } else {
+      return res.status(400).json(data);
+    }
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    return res.status(400).json({ error: err.message });
   }
 }

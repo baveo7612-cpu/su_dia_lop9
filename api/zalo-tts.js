@@ -1,17 +1,12 @@
 export default async function handler(req, res) {
-  // Support text param from both GET query and POST body
-  let text = req.query?.text;
-  if (!text && req.body) {
-    if (typeof req.body === 'string') {
-      try {
-        const parsed = JSON.parse(req.body);
-        text = parsed.text;
-      } catch {
-        text = req.body;
-      }
-    } else {
-      text = req.body.text;
-    }
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  if (req.method === "OPTIONS") return res.status(200).end();
+
+  let text = req.method === "POST" ? (typeof req.body === 'string' ? JSON.parse(req.body)?.text : req.body?.text) : req.query?.text;
+  if (!text && req.body && typeof req.body === 'string') {
+    try { text = JSON.parse(req.body).text; } catch {}
   }
 
   if (!text) {
@@ -19,10 +14,11 @@ export default async function handler(req, res) {
   }
 
   try {
-    const formData = new URLSearchParams();
-    formData.append("input", text);
-    formData.append("speaker_id", "1"); // Nữ miền Bắc chuẩn sư phạm
-    formData.append("speed", "0.95");
+    const params = new URLSearchParams();
+    params.append("input", text);
+    params.append("speaker_id", "1"); // Nữ miền Bắc
+    params.append("speed", "0.9");
+    params.append("encode_type", "0");
 
     const response = await fetch("https://api.zalo.ai/v1/tts/synthesize", {
       method: "POST",
@@ -30,15 +26,17 @@ export default async function handler(req, res) {
         "apikey": "54IY1Y4zgI6DStypp6Y6Qw2kgC5JLD6T",
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      body: formData.toString()
+      body: params.toString()
     });
 
-    const data = await response.json();
+    const data = await response.json().catch(() => ({ error_code: 500, message: "Zalo API invalid response" }));
+
     if (data.error_code === 0 && data.data?.url) {
-      return res.status(200).json({ url: data.data.url });
+      return res.status(200).json(data);
+    } else {
+      return res.status(400).json(data);
     }
-    return res.status(500).json({ error: data.message || "Zalo API failed", details: data });
   } catch (err) {
-    return res.status(500).json({ error: err.message });
+    return res.status(400).json({ error: err.message });
   }
 }
