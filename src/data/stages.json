@@ -1,0 +1,642 @@
+[
+  {
+    "stage_id": 1,
+    "stage_title": "Khởi Nghĩa Yên Bái",
+    "boss_name": "Mật Thám Pháp",
+    "boss_hp": 100,
+    "question": "Cuộc khởi nghĩa Yên Bái do Nguyễn Thái Học lãnh đạo nổ ra vào thời gian nào?",
+    "options": [
+      "Đêm 9 - 2 - 1930",
+      "Đêm 3 - 2 - 1930",
+      "Đêm 12 - 9 - 1930",
+      "Đêm 19 - 12 - 1946"
+    ],
+    "correct_index": 0,
+    "explanation": "Quyết định khởi nghĩa Yên Bái vào đêm 9-2-1930 của Nguyễn Thái Học dù thất bại nhưng đã thể hiện tinh thần yêu nước quật khởi với câu nói nổi tiếng 'Không thành công cũng thành nhân'.",
+    "reward_skill": "Hỏa Công Yên Bái"
+  },
+  {
+    "stage_id": 2,
+    "stage_title": "Thành Lập Đảng Cộng Sản Việt Nam",
+    "boss_name": "Đại Diện Thực Dân Pháp",
+    "boss_hp": 120,
+    "question": "Hội nghị thành lập Đảng Cộng sản Việt Nam (1930) được Nguyễn Ái Quốc chủ trì tại địa điểm nào?",
+    "options": [
+      "Cửu Long (Hương Cảng, Trung Quốc)",
+      "Quảng Châu (Trung Quốc)",
+      "Tân Trào (Tuyên Quang)",
+      "Cao Bằng"
+    ],
+    "correct_index": 0,
+    "explanation": "Hội nghị hợp nhất diễn ra từ ngày 6-1 đến ngày 7-2-1930 tại Cửu Long, nhất trí thành lập một đảng duy nhất lấy tên là Đảng Cộng sản Việt Nam.",
+    "reward_skill": "Ánh Sáng Cương Lĩnh"
+  },
+  {
+    "stage_id": 3,
+    "stage_title": "Xô Viết Nghệ - Tĩnh",
+    "boss_name": "Quan Sứ Pháp",
+    "boss_hp": 150,
+    "question": "Sự kiện lịch sử nào vào ngày 12 - 9 - 1930 được coi là đỉnh cao tiêu biểu của phong trào cách mạng 1930 - 1931 ở Nghệ - Tĩnh?",
+    "options": [
+      "Cuộc biểu tình của nông dân Hưng Nguyên",
+      "Cuộc biểu tình của công nhân Ba Son",
+      "Cuộc bãi công của thợ máy sợi Nam Định",
+      "Cuộc mít tinh tại khu Đấu xảo"
+    ],
+    "correct_index": 0,
+    "explanation": "Cuộc biểu tình ngày 12-9-1930 của nông dân Hưng Nguyên (Nghệ An) dù bị thực dân Pháp đàn áp bằng máy bay tàn bạo, nhưng đã khẳng định ý chí kiên cường và mở đầu cho đỉnh cao Xô viết Nghệ - Tĩnh.",
+    "reward_skill": "Bão Lửa Hưng Nguyên"
+  },
+  {
+    "stage_id": 4,
+    "stage_title": "Tuyên Ngôn Độc Lập",
+    "boss_name": "Tướng Quân Phát Xít Nhật",
+    "boss_hp": 200,
+    "question": "Chủ tịch Hồ Chí Minh đọc bản Tuyên ngôn Độc lập khai sinh ra nước Việt Nam Dân chủ Cộng hoà vào ngày nào?",
+    "options": [
+      "Ngày 2 - 9 - 1945",
+      "Ngày 19 - 8 - 1945",
+      "Ngày 23 - 9 - 1945",
+      "Ngày 19 - 12 - 1946"
+    ],
+    "correct_index": 0,
+    "explanation": "Chiều ngày 2-9-1945, tại Quảng trường Ba Đình (Hà Nội), bản Tuyên ngôn Độc lập chính thức được tuyên đọc, mở ra kỷ nguyên mới độc lập và tự do cho dân tộc Việt Nam.",
+    "reward_skill": "Tuyên Ngôn Hộ Thể"
+  },
+  {
+    "stage_id": 5,
+    "stage_title": "Kháng Chiến Bùng Nổ Ở Nam Bộ",
+    "boss_name": "Quân Đội Viễn Chinh Pháp",
+    "boss_hp": 220,
+    "question": "Thực dân Pháp nổ súng tấn công Sài Gòn - Chợ Lớn, chính thức mở đầu cuộc xâm lược Việt Nam lần thứ hai vào ngày nào?",
+    "options": [
+      "Ngày 23 - 9 - 1945",
+      "Ngày 2 - 9 - 1945",
+      "Ngày 19 - 12 - 1946",
+      "Ngày 6 - 3 - 1946"
+    ],
+    "correct_index": 0,
+    "explanation": "Ngày 23-9-1945, được sự giúp đỡ của quân Anh, Pháp nổ súng tấn công trụ sở Ủy ban nhân dân Nam Bộ tại Sài Gòn, nhân dân Nam Bộ kiên quyết đứng lên kháng chiến chống xâm lược.",
+    "reward_skill": "Nam Bộ Thành Đồng"
+  },
+  {
+    "stage_id": 6,
+    "stage_title": "Toàn Quốc Kháng Chiến Bùng Nổ",
+    "boss_name": "Chỉ Huy Pháp Tại Hà Nội",
+    "boss_hp": 250,
+    "question": "Thời điểm chính xác pháo đài Láng gầm tiếng súng mở đầu cho Toàn quốc kháng chiến chống thực dân Pháp là lúc nào?",
+    "options": [
+      "20 giờ 3 phút tối ngày 19 - 12 - 1946",
+      "12 giờ trưa ngày 19 - 12 - 1946",
+      "23 giờ đêm ngày 23 - 9 - 1945",
+      "20 giờ tối ngày 2 - 9 - 1945"
+    ],
+    "correct_index": 0,
+    "explanation": "Vào lúc 20 giờ 3 phút tối ngày 19-12-1946, pháo đài Láng (Hà Nội) bắn phát đạn đầu tiên, báo hiệu cuộc Toàn quốc kháng chiến bùng nổ theo Lời kêu gọi của Chủ tịch Hồ Chí Minh.",
+    "reward_skill": "Hào Khí Pháo Đài"
+  },
+  {
+    "stage_id": 7,
+    "stage_title": "Chiến Dịch Biên Giới Thu - Đông",
+    "boss_name": "Binh Đoàn Rơ-ve",
+    "boss_hp": 300,
+    "question": "Chiến dịch quân sự nào vào năm 1950 giúp ta khai thông đường biên giới Việt - Trung để tiếp nhận viện trợ quốc tế?",
+    "options": [
+      "Chiến dịch Biên giới",
+      "Chiến dịch Việt Bắc",
+      "Chiến dịch Điện Biên Phủ",
+      "Chiến dịch Thượng Lào"
+    ],
+    "correct_index": 0,
+    "explanation": "Chiến dịch Biên giới thu - đông 1950 giành thắng lợi đã khai thông hành lang liên lạc quốc tế, giúp ta giành quyền chủ động chiến lược trên chiến trường chính Bắc Bộ.",
+    "reward_skill": "Thông Quan Biên Giới"
+  },
+  {
+    "stage_id": 8,
+    "stage_title": "Đại Thắng Điện Biên Phủ",
+    "boss_name": "Tướng Đờ Ca-xtơ-ri",
+    "boss_hp": 400,
+    "question": "Vào thời gian nào tướng Đờ Ca-xtơ-ri cùng toàn bộ bộ tham mưu cứ điểm Điện Biên Phủ bị bắt sống?",
+    "options": [
+      "17 giờ 30 phút ngày 7 - 5 - 1954",
+      "11 giờ 30 phút ngày 30 - 4 - 1975",
+      "16 giờ 30 phút ngày 7 - 5 - 1954",
+      "17 giờ ngày 20 - 7 - 1954"
+    ],
+    "correct_index": 0,
+    "explanation": "Vào lúc 17 giờ 30 phút ngày 7-5-1954, tập đoàn cứ điểm Điện Biên Phủ hoàn toàn sụp đổ khi tướng Đờ Ca-xtơ-ri bị bắt sống, kết thúc thắng lợi cuộc kháng chiến chống thực dân Pháp.",
+    "reward_skill": "Thiên Sứ Điện Biên"
+  },
+  {
+    "stage_id": 9,
+    "stage_title": "Phong Trào Đồng Khởi",
+    "boss_name": "Chính Quyền Mỹ - Diệm",
+    "boss_hp": 450,
+    "question": "Ngày 17 - 1 - 1960, phong trào Đồng khởi bùng nổ tiêu biểu nhất ở huyện Mỏ Cày thuộc tỉnh nào với sự tham gia của 'đội quân tóc dài'?",
+    "options": [
+      "Bến Tre",
+      "Bình Định",
+      "Quảng Ngãi",
+      "Trị Thiên"
+    ],
+    "correct_index": 0,
+    "explanation": "Phong trào Đồng khởi tiêu biểu tại huyện Mỏ Cày (Bến Tre) đã phá vỡ hệ thống kìm kẹp của địch, chuyển cách mạng miền Nam từ thế giữ gìn lực lượng sang thế tiến công.",
+    "reward_skill": "Đồng Khởi Sóng Thần"
+  },
+  {
+    "stage_id": 10,
+    "stage_title": "Chiến Dịch Hồ Chí Minh Lịch Sử",
+    "boss_name": "Quân Đội Sài Gòn",
+    "boss_hp": 500,
+    "question": "Chiến dịch Hồ Chí Minh giải phóng Sài Gòn - Gia Định năm 1975 chính thức nổ súng bắt đầu tiến công vào thời gian nào?",
+    "options": [
+      "17 giờ ngày 26 - 4 - 1975",
+      "11 giờ 30 phút ngày 30 - 4 - 1975",
+      "11 giờ 30 phút ngày 29 - 4 - 1975",
+      "17 giờ ngày 30 - 4 - 1975"
+    ],
+    "correct_index": 0,
+    "explanation": "Chiến dịch bắt đầu nổ súng lúc 17 giờ ngày 26-4-1975 và kết thúc đại thắng lúc 11 giờ 30 phút ngày 30-4-1975 khi lá cờ giải phóng tung bay trên nóc Dinh Độc Lập.",
+    "reward_skill": "Đại Thắng Mùa Xuân"
+  },
+  {
+    "stage_id": 11,
+    "stage_title": "Chiến Dịch Việt Bắc Thu - Đông 1947",
+    "boss_name": "Binh Đoàn Nhảy Dù Pháp",
+    "boss_hp": 550,
+    "question": "Chiến dịch Việt Bắc thu - đông năm 1947 kết thúc thắng lợi vào thời gian nào, buộc thực dân Pháp phải từ bỏ chiến lược 'đánh nhanh thắng nhanh'?",
+    "options": [
+      "Ngày 19 - 12 - 1947",
+      "Ngày 19 - 12 - 1946",
+      "Ngày 22 - 12 - 1944",
+      "Ngày 19 - 12 - 1945"
+    ],
+    "correct_index": 0,
+    "explanation": "Chiến dịch kết thúc oanh liệt vào ngày 19-12-1947 khi đại bộ phận quân Pháp phải rút chạy khỏi Việt Bắc, bảo vệ vững chắc cơ quan đầu não kháng chiến.",
+    "reward_skill": "Việt Bắc Sấm Sét"
+  },
+  {
+    "stage_id": 12,
+    "stage_title": "Hiệp Định Giơ-ne-vơ 1954",
+    "boss_name": "Phái Đoàn Ngoại Giao Pháp",
+    "boss_hp": 600,
+    "question": "Hiệp định Giơ-ne-vơ về chấm dứt chiến tranh, lập lại hòa bình ở Đông Dương chính thức được ký kết vào thời gian nào?",
+    "options": [
+      "Sáng ngày 21 - 7 - 1954",
+      "Chiều ngày 7 - 5 - 1954",
+      "Sáng ngày 6 - 3 - 1946",
+      "Chiều ngày 20 - 7 - 1954"
+    ],
+    "correct_index": 0,
+    "explanation": "Hiệp định Giơ-ne-vơ được ký kết vào sáng ngày 21-7-1954, buộc thực dân Pháp phải cam kết tôn trọng độc lập, chủ quyền, thống nhất và toàn vẹn lãnh thổ của Việt Nam.",
+    "reward_skill": "Ngoại Giao Thần Chưởng"
+  },
+  {
+    "stage_id": 13,
+    "stage_title": "Chiến Thắng Ấp Bắc 1963",
+    "boss_name": "Thiết Sa Vận M113",
+    "boss_hp": 650,
+    "question": "Trận thắng quân sự vang dội nào vào ngày 2 - 1 - 1963 chứng minh quân dân miền Nam hoàn toàn có khả năng đánh bại chiến thuật 'trực thăng vận' và 'thiết sa vận' của Mỹ?",
+    "options": [
+      "Chiến thắng Ấp Bắc (Mỹ Tho)",
+      "Chiến thắng Vạn Tường (Quảng Ngãi)",
+      "Chiến thắng Bình Giã (Bà Rịa)",
+      "Chiến thắng An Lão (Bình Định)"
+    ],
+    "correct_index": 0,
+    "explanation": "Chiến thắng Ấp Bắc ngày 2-1-1963 đã dấy lên phong trào 'Thi đua Ấp Bắc, giết giặc lập công', mở ra khả năng đánh bại chiến lược 'Chiến tranh đặc biệt' của Mỹ.",
+    "reward_skill": "Thiết Giáp Phá Kích"
+  },
+  {
+    "stage_id": 14,
+    "stage_title": "Chiến Thắng Vạn Tường 1965",
+    "boss_name": "Thủy Quân Lục Chiến Mỹ",
+    "boss_hp": 700,
+    "question": "Trận Vạn Tường (Quảng Ngãi) vào tháng 8 - 1965 đã chứng minh quân dân miền Nam có khả năng đánh thắng lực lượng nào của Mỹ?",
+    "options": [
+      "Thủy quân lục chiến Mỹ",
+      "Binh đoàn thiết giáp Mỹ",
+      "Không quân chiến lược Mỹ",
+      "Lực lượng đặc biệt Mỹ"
+    ],
+    "correct_index": 0,
+    "explanation": "Tháng 8-1965, quân dân ta đã đẩy lùi cuộc tiến công quy mô lớn của Thủy quân lục chiến Mỹ tại Vạn Tường, mở đầu cao trào 'Tìm Mỹ mà đánh, lùng ngụy mà diệt' trên khắp miền Nam.",
+    "reward_skill": "Vạn Tường Trường Lũy"
+  },
+  {
+    "stage_id": 15,
+    "stage_title": "Xuân Mậu Thân 1968",
+    "boss_name": "Chỉ Huy Đồn Trú Sài Gòn",
+    "boss_hp": 750,
+    "question": "Cuộc Tổng tiến công và nổi dậy Xuân Mậu Thân 1968 bắt đầu nổ súng bất ngờ vào thời điểm nào?",
+    "options": [
+      "Đêm 30 rạng sáng 31 - 1 - 1968",
+      "Đêm 29 rạng sáng 30 - 1 - 1968",
+      "Đêm 23 rạng sáng 24 - 12 - 1968",
+      "Đêm 19 rạng sáng 20 - 12 - 1968"
+    ],
+    "correct_index": 0,
+    "explanation": "Đêm 30 rạng sáng 31-1-1968 (đêm Giao thừa), quân ta đồng loạt tiến công các đô thị lớn ở miền Nam, làm lung lay ý chí xâm lược của Mỹ và buộc họ phải bước vào đàm phán.",
+    "reward_skill": "Mậu Thân Thần Tốc"
+  },
+  {
+    "stage_id": 16,
+    "stage_title": "Điện Biên Phủ Trên Không 1972",
+    "boss_name": "Pháo Đài Bay B-52",
+    "boss_hp": 800,
+    "question": "Trận chiến đấu chống tập kích đường không bằng máy bay B-52 bảo vệ Hà Nội, Hải Phòng cuối năm 1972 diễn ra trong bao nhiêu ngày đêm?",
+    "options": [
+      "12 ngày đêm",
+      "9 ngày đêm",
+      "56 ngày đêm",
+      "81 ngày đêm"
+    ],
+    "correct_index": 0,
+    "explanation": "Trải qua 12 ngày đêm liên tục chiến đấu kiên cường (18-12 đến 29-12-1972), quân dân miền Bắc đã đập tan cuộc tập kích chiến lược bằng B-52, buộc Mỹ ký Hiệp định Pa-ri.",
+    "reward_skill": "Thiên Long Chấn Không"
+  },
+  {
+    "stage_id": 17,
+    "stage_title": "Hiệp Định Pa-ri 1973",
+    "boss_name": "Phái Đoàn Thương Lượng Mỹ",
+    "boss_hp": 850,
+    "question": "Hiệp định Pa-ri về chấm dứt chiến tranh, lập lại hòa bình ở Việt Nam chính thức được ký kết vào ngày nào?",
+    "options": [
+      "Ngày 27 - 1 - 1973",
+      "Ngày 29 - 3 - 1973",
+      "Ngày 27 - 1 - 1972",
+      "Ngày 30 - 4 - 1975"
+    ],
+    "correct_index": 0,
+    "explanation": "Hiệp định Pa-ri ký ngày 27-1-1973 đã buộc toàn bộ quân Mỹ và đồng minh phải rút khỏi Việt Nam, hoàn thành mục tiêu 'đánh cho Mỹ cút'.",
+    "reward_skill": "Hoà Bình Ấn Chú"
+  },
+  {
+    "stage_id": 18,
+    "stage_title": "Bảo Vệ Biên Giới Tây Nam",
+    "boss_name": "Tập Đoàn Pôn Pốt",
+    "boss_hp": 900,
+    "question": "Để bảo vệ biên giới Tây Nam, quân dân ta đã phối hợp với lực lượng cách mạng Campuchia giải phóng hoàn toàn thủ đô Phnôm Pênh vào ngày nào?",
+    "options": [
+      "Ngày 7 - 1 - 1979",
+      "Ngày 22 - 12 - 1978",
+      "Ngày 17 - 2 - 1979",
+      "Ngày 14 - 3 - 1988"
+    ],
+    "correct_index": 0,
+    "explanation": "Chiến thắng ngày 7-1-1979 đã đập tan tập đoàn phản động Pôn Pốt, bảo vệ vững chắc biên giới Tây Nam Tổ quốc và cứu nhân dân Campuchia khỏi họa diệt chủng.",
+    "reward_skill": "Tây Nam Bình Định"
+  },
+  {
+    "stage_id": 19,
+    "stage_title": "Bảo Vệ Biên Giới Phía Bắc",
+    "boss_name": "Lực Lượng Xâm Lược Biên Cương",
+    "boss_hp": 950,
+    "question": "Cuộc chiến đấu bảo vệ biên giới phía Bắc của Tổ quốc chính thức bùng nổ khi quân đối phương tràn qua biên giới ta vào thời gian nào?",
+    "options": [
+      "Đêm 16 rạng sáng 17 - 2 - 1979",
+      "Ngày 5 - 3 - 1979",
+      "Ngày 17 - 1 - 1979",
+      "Ngày 14 - 3 - 1988"
+    ],
+    "correct_index": 0,
+    "explanation": "Đêm 16 rạng sáng 17-2-1979, quân và dân các tỉnh biên giới phía Bắc đã anh dũng đứng lên chiến đấu kiên cường bảo vệ từng tấc đất thiêng liêng của Tổ quốc.",
+    "reward_skill": "Biên Cương Vạn Lý"
+  },
+  {
+    "stage_id": 20,
+    "stage_title": "Công Cuộc Đổi Mới Đất Nước",
+    "boss_name": "Khủng Hoảng Kinh Tế",
+    "boss_hp": 1000,
+    "question": "Công cuộc Đổi mới toàn diện đất nước được Đảng Cộng sản Việt Nam đề ra tại Đại hội toàn quốc lần thứ mấy diễn ra vào tháng 12 - 1986?",
+    "options": [
+      "Đại hội VI",
+      "Đại hội V",
+      "Đại hội IV",
+      "Đại hội VII"
+    ],
+    "correct_index": 0,
+    "explanation": "Đại hội lần thứ VI của Đảng (12-1986) do Tổng Bí thư Nguyễn Văn Linh khởi xướng đã mở ra con đường Đổi mới, đưa đất nước vượt qua khó khăn và vững bước phát triển hội nhập.",
+    "reward_skill": "Đổi Mới Quang Huy"
+  },
+  {
+    "stage_id": 21,
+    "stage_title": "Nóc Nhà Đông Dương Fansipan",
+    "boss_name": "Thần Sương Giá Fansipan",
+    "boss_hp": 1100,
+    "question": "Theo sách giáo khoa, đỉnh núi Fansipan thuộc dãy Hoàng Liên Sơn có độ cao bao nhiêu mét?",
+    "options": [
+      "3 147 m",
+      "3 143 m",
+      "2 598 m",
+      "2 405 m"
+    ],
+    "correct_index": 0,
+    "explanation": "Đỉnh Fansipan cao 3 147 m là đỉnh núi cao nhất nước ta và cả vùng Đông Dương, thuộc vùng Trung du và miền núi Bắc Bộ.",
+    "reward_skill": "Băng Phong Vạn Lý"
+  },
+  {
+    "stage_id": 22,
+    "stage_title": "Thủy Điện Sơn La - Công Trình Thế Kỷ",
+    "boss_name": "Thủy Quái Sông Đà",
+    "boss_hp": 1200,
+    "question": "Nhà máy thủy điện nào trên sông Đà có công suất lớn nhất nước ta hiện nay với công suất đạt 2 400 MW?",
+    "options": [
+      "Thủy điện Sơn La",
+      "Thủy điện Hòa Bình",
+      "Thủy điện Thác Bà",
+      "Thủy điện Tuyên Quang"
+    ],
+    "correct_index": 0,
+    "explanation": "Nhà máy Thủy điện Sơn La có công suất đạt 2 400 MW, đóng vai trò vô cùng quan trọng trong việc cung cấp điện năng và điều tiết nguồn nước cho đồng bằng Bắc Bộ.",
+    "reward_skill": "Thủy Triều Nộ Hống"
+  },
+  {
+    "stage_id": 23,
+    "stage_title": "Đất Mỏ Quảng Ninh - Vựa Than Tổ Quốc",
+    "boss_name": "Hắc Long Đất Mỏ",
+    "boss_hp": 1300,
+    "question": "Loại khoáng sản năng lượng nào có trữ lượng và chất lượng tốt nhất cả nước, tập trung khai thác chủ yếu ở tỉnh Quảng Ninh?",
+    "options": [
+      "Than đá",
+      "Dầu mỏ",
+      "Bô-xít",
+      "Sắt"
+    ],
+    "correct_index": 0,
+    "explanation": "Quảng Ninh là bể than lớn và quan trọng nhất Việt Nam, cung cấp than đá cho phần lớn nhà máy nhiệt điện cả nước.",
+    "reward_skill": "Hắc Kim Hộ Thể"
+  },
+  {
+    "stage_id": 24,
+    "stage_title": "Đồng Bằng Sông Hồng - Đất Chật Người Đông",
+    "boss_name": "Hộ Pháp Phù Sa",
+    "boss_hp": 1400,
+    "question": "Vùng nào của nước ta có mật độ dân số cao nhất cả nước với mức trung bình 1 091 người/km² vào năm 2021?",
+    "options": [
+      "Đồng bằng sông Hồng",
+      "Đông Nam Bộ",
+      "Đồng bằng sông Cửu Long",
+      "Bắc Trung Bộ"
+    ],
+    "correct_index": 0,
+    "explanation": "Nhờ địa hình bằng phẳng, đất phù sa sông Hồng màu mỡ và lịch sử khai phá lâu đời, Đồng bằng sông Hồng có mật độ dân số đứng đầu cả nước.",
+    "reward_skill": "Phù Sa Giáp Vệ"
+  },
+  {
+    "stage_id": 25,
+    "stage_title": "Bắc Trung Bộ - Thử Thách Gió Lào",
+    "boss_name": "Viêm Ma Gió Tây Nam",
+    "boss_hp": 1500,
+    "question": "Loại gió nào từ vịnh Thái Lan thổi vượt qua dãy Trường Sơn gây ra hiện tượng khô nóng cực đoan vào đầu mùa hạ ở vùng Bắc Trung Bộ?",
+    "options": [
+      "Gió Tây Nam (Gió Lào)",
+      "Gió mùa Đông Bắc",
+      "Gió mùa Tây Nam",
+      "Gió Đông Nam"
+    ],
+    "correct_index": 0,
+    "explanation": "Gió Tây Nam sau khi vượt qua dãy Trường Sơn bị biến tính trở nên cực kỳ khô nóng, ảnh hưởng mạnh đến đời sống sinh hoạt của vùng Bắc Trung Bộ.",
+    "reward_skill": "Cuồng Phong Viêm Hỏa"
+  },
+  {
+    "stage_id": 26,
+    "stage_title": "Phong Nha Kẻ Bàng - Kỳ Quan Karst",
+    "boss_name": "Thạch Nhũ Cổ Thần",
+    "boss_hp": 1600,
+    "question": "Hệ thống hang động karst cổ nổi tiếng Phong Nha - Kẻ Bàng là di sản thiên nhiên thế giới thuộc địa phận tỉnh nào?",
+    "options": [
+      "Quảng Bình",
+      "Thanh Hóa",
+      "Nghệ An",
+      "Thừa Thiên Huế"
+    ],
+    "correct_index": 0,
+    "explanation": "Vườn quốc gia Phong Nha - Kẻ Bàng thuộc tỉnh Quảng Bình sở hữu hệ thống địa chất karst kỳ vĩ cùng vô số hang động tráng lệ nổi tiếng thế giới.",
+    "reward_skill": "Thạch Biến Ấn Ký"
+  },
+  {
+    "stage_id": 27,
+    "stage_title": "Chủ Quyền Biển Đảo Hoàng Sa - Trường Sa",
+    "boss_name": "Hải Tặc Biển Đông",
+    "boss_hp": 1700,
+    "question": "Hai quần đảo Hoàng Sa và Trường Sa của Việt Nam lần lượt thuộc quyền quản lý hành chính của địa phương nào?",
+    "options": [
+      "Thành phố Đà Nẵng và tỉnh Khánh Hòa",
+      "Tỉnh Quảng Nam và tỉnh Bình Thuận",
+      "Tỉnh Khánh Hòa và tỉnh Bà Rịa - Vũng Tàu",
+      "Thành phố Hải Phòng và tỉnh Kiên Giang"
+    ],
+    "correct_index": 0,
+    "explanation": "Huyện đảo Hoàng Sa trực thuộc thành phố Đà Nẵng và huyện đảo Trường Sa trực thuộc tỉnh Khánh Hòa là những vùng lãnh thổ biển đảo thiêng liêng không thể tách rời của nước ta.",
+    "reward_skill": "Thiên Hải Triều Dâng"
+  },
+  {
+    "stage_id": 28,
+    "stage_title": "Tây Nguyên - Thủ Phủ Cây Công Nghiệp",
+    "boss_name": "Mãng Xà Đất Đỏ",
+    "boss_hp": 1800,
+    "question": "Tây Nguyên sở hữu diện tích đất đỏ badan màu mỡ, trở thành vùng chuyên canh lớn nhất cả nước về loại cây công nghiệp lâu năm nào?",
+    "options": [
+      "Cà phê",
+      "Chè",
+      "Cao su",
+      "Hồ tiêu"
+    ],
+    "correct_index": 0,
+    "explanation": "Với ưu thế đất đỏ badan tơi xốp, tầng phong hóa sâu và khí hậu cận xích đạo, Tây Nguyên là thủ phủ cà phê có sản lượng dẫn đầu cả nước.",
+    "reward_skill": "Thổ Chấn Tây Nguyên"
+  },
+  {
+    "stage_id": 29,
+    "stage_title": "Tây Nguyên - Kho Báu Bô-xít",
+    "boss_name": "Hộ Vệ Quặng Bô-xít",
+    "boss_hp": 1900,
+    "question": "Loại khoáng sản kim loại màu có trữ lượng lớn nhất của vùng Tây Nguyên, phân bố chủ yếu ở Đắk Nông, Lâm Đồng và Gia Lai là gì?",
+    "options": [
+      "Bô-xít (quặng nhôm)",
+      "Sắt",
+      "Đồng",
+      "Thiếc"
+    ],
+    "correct_index": 0,
+    "explanation": "Quặng bô-xít tập trung chủ yếu ở Tây Nguyên là nguồn tài nguyên chiến lược phục vụ chế biến alumin và công nghiệp luyện nhôm.",
+    "reward_skill": "Kim Loại Phá Kích"
+  },
+  {
+    "stage_id": 30,
+    "stage_title": "Đông Nam Bộ - Đầu Tàu Kinh Tế",
+    "boss_name": "Thủ Lĩnh Đô Thị Cực Lớn",
+    "boss_hp": 2000,
+    "question": "Vùng kinh tế nào ở nước ta dẫn đầu cả nước về tốc độ đô thị hóa, tỷ trọng công nghiệp và thu hút vốn đầu tư nước ngoài (FDI)?",
+    "options": [
+      "Đông Nam Bộ",
+      "Đồng bằng sông Hồng",
+      "Đồng bằng sông Cửu Long",
+      "Duyên hải Nam Trung Bộ"
+    ],
+    "correct_index": 0,
+    "explanation": "Đông Nam Bộ là vùng kinh tế năng động nhất cả nước nhờ hạ tầng đồng bộ, tốc độ đô thị hóa nhanh và là đầu tàu tăng trưởng kinh tế bền vững.",
+    "reward_skill": "Quang Huy Thịnh Vượng"
+  },
+  {
+    "stage_id": 31,
+    "stage_title": "Đồng Bằng Sông Cửu Long - Vùng Đất Trù Phú",
+    "boss_name": "Hộ Vệ Sông Mê Công",
+    "boss_hp": 2100,
+    "question": "Theo sách giáo khoa, vùng Đồng bằng sông Cửu Long bao gồm bao nhiêu tỉnh và thành phố trực thuộc Trung ương?",
+    "options": [
+      "13 tỉnh, thành phố",
+      "11 tỉnh, thành phố",
+      "7 tỉnh, thành phố",
+      "9 tỉnh, thành phố"
+    ],
+    "correct_index": 0,
+    "explanation": "Đồng bằng sông Cửu Long bao gồm 13 tỉnh và thành phố trực thuộc Trung ương, với trung tâm kinh tế động lực và đô thị hạt nhân phát triển nhất là thành phố Cần Thơ.",
+    "reward_skill": "Mê Công Đại Triều"
+  },
+  {
+    "stage_id": 32,
+    "stage_title": "Hệ Thống Sông Ngòi Chằng Chịt",
+    "boss_name": "Thần Luồng Sông Tiền",
+    "boss_hp": 2200,
+    "question": "Trước khi đổ ra Biển Đông, sông Mê Công chảy qua lãnh thổ Việt Nam chia thành hai nhánh sông chính nào?",
+    "options": [
+      "Sông Tiền và Sông Hậu",
+      "Sông Vàm Cỏ Đông và Sông Vàm Cỏ Tây",
+      "Sông Cổ Chiên và Sông Hàm Luông",
+      "Sông Đồng Nai và Sông Sài Gòn"
+    ],
+    "correct_index": 0,
+    "explanation": "Nhánh chính sông Mê Công chảy vào nước ta chia thành sông Tiền và sông Hậu, kiến tạo nên hệ thống sông ngòi và kênh rạch chằng chịt, bồi đắp nguồn phù Sa dồi dào quanh năm.",
+    "reward_skill": "Song Long Vượt Hải"
+  },
+  {
+    "stage_id": 33,
+    "stage_title": "Thử Thách Đất Phèn, Đất Mặn",
+    "boss_name": "Quái Thú Đất Mặn",
+    "boss_hp": 2300,
+    "question": "Ngoài đất phù sa ngọt phân bố dọc sông Tiền và sông Hậu, hai nhóm đất chiếm diện tích rất lớn của vùng là gì?",
+    "options": [
+      "Đất phèn và đất mặn",
+      "Đất đỏ và đất xám",
+      "Đất cát và đất feralit",
+      "Đất mùn và đất sét"
+    ],
+    "correct_index": 0,
+    "explanation": "Đất phèn và đất mặn chiếm diện tích lớn ở các vùng trũng (như Đồng Tháp Mười, Tứ giác Long Xuyên) và dải ven biển, đòi hỏi hệ thống thủy lợi thau chua, rửa mặn.",
+    "reward_skill": "Thổ Nhưỡng Tẩy Trần"
+  },
+  {
+    "stage_id": 34,
+    "stage_title": "Rừng Ngập Mặn Bán Đảo Cà Mau",
+    "boss_name": "Hộ Vệ Rừng Tràm",
+    "boss_hp": 2400,
+    "question": "Hệ sinh thái rừng nào chiếm diện tích lớn nhất ở vùng ven biển Đông và ven biển Tây của Đồng bằng sông Cửu Long?",
+    "options": [
+      "Rừng ngập mặn",
+      "Rừng tràm núi đất",
+      "Rừng ôn đới lá kim",
+      "Rừng khộp nhiệt đới"
+    ],
+    "correct_index": 0,
+    "explanation": "Rừng ngập mặn ven biển Nam Bộ (tiêu biểu là ở Cà Mau) có diện tích lớn nhất cả nước, đóng vai trò quan trọng trong việc giữ đất, chống sạt lở bờ biển và bảo vệ đa dạng sinh học.",
+    "reward_skill": "Đức Thiêng Hộ Thể"
+  },
+  {
+    "stage_id": 35,
+    "stage_title": "Vựa Lúa Lớn Nhất Việt Nam",
+    "boss_name": "Thần Nông Chợ Gạo",
+    "boss_hp": 2500,
+    "question": "Đồng bằng sông Cửu Long là vùng chuyên canh nông nghiệp đóng vai trò quan trọng nhất cả nước về hoạt động nào?",
+    "options": [
+      "Sản xuất lương thực và xuất khẩu gạo",
+      "Trồng cây công nghiệp lâu năm",
+      "Khai thác khoáng sản kim loại màu",
+      "Chăn nuôi gia súc lớn quy mô công nghiệp"
+    ],
+    "correct_index": 0,
+    "explanation": "Vùng đóng góp hơn 50% diện tích gieo trồng và sản lượng lúa cả nước, bảo đảm vững chắc an ninh lương thực quốc gia và vị thế xuất khẩu gạo hàng đầu của Việt Nam.",
+    "reward_skill": "Hoàng Kim Thực Hoa"
+  },
+  {
+    "stage_id": 36,
+    "stage_title": "Thủ Phủ Trái Cây Miệt Vườn",
+    "boss_name": "Chúa Tể Miệt Vườn",
+    "boss_hp": 2600,
+    "question": "Nhờ khí hậu cận xích đạo nóng ẩm quanh năm, vùng Đồng bằng sông Cửu Long dẫn đầu cả nước về diện tích và sản lượng loại cây nào?",
+    "options": [
+      "Cây ăn quả",
+      "Cây chè và cà phê",
+      "Cây thảo dược ôn đới",
+      "Cây lâm nghiệp lấy gỗ"
+    ],
+    "correct_index": 0,
+    "explanation": "Đồng bằng sông Cửu Long là vùng chuyên canh cây ăn quả lớn nhất cả nước với các miệt vườn trù phú nổi tiếng, cung cấp nhiều loại trái cây nhiệt đới đặc sản có giá trị kinh tế cao.",
+    "reward_skill": "Bách Quả Quang Huy"
+  },
+  {
+    "stage_id": 37,
+    "stage_title": "Vương Quốc Thủy Hải Sản",
+    "boss_name": "Hải Vương Bạc Liêu",
+    "boss_hp": 2700,
+    "question": "Điều kiện tự nhiên quan trọng nhất giúp Đồng bằng sông Cửu Long trở thành vùng nuôi trồng thủy sản lớn nhất nước ta là gì?",
+    "options": [
+      "Diện tích mặt nước rộng lớn từ sông ngòi, kênh rạch, bãi triều và rừng ngập mặn",
+      "Có nhiều dòng sông suối chảy xiết trên núi cao thích hợp xây dựng hồ nhân tạo",
+      "Có khí hậu lạnh ẩm thích hợp nuôi các loài cá nước lạnh ôn đới",
+      "Có hệ thống hang động karst chứa nguồn nước ngầm giàu khoáng chất"
+    ],
+    "correct_index": 0,
+    "explanation": "Vùng có lợi thế tuyệt đối về mặt nước từ mạng lưới sông rạch, bãi triều, đầm phá và rừng ngập mặn dồi dào, thích hợp nuôi tôm nước lợ, cá nước ngọt và hải sản xuất khẩu.",
+    "reward_skill": "Thủy Tộc Triệu Hoán"
+  },
+  {
+    "stage_id": 38,
+    "stage_title": "Công Nghiệp Chế Biến Trọng Điểm",
+    "boss_name": "Thủ Lĩnh Công Nghệ Thực Phẩm",
+    "boss_hp": 2800,
+    "question": "Dựa vào nguồn nguyên liệu nông nghiệp và thủy sản phong phú tại chỗ, ngành công nghiệp nào chiếm tỷ trọng lớn nhất của vùng?",
+    "options": [
+      "Chế biến lương thực, thực phẩm",
+      "Cơ khí chế tạo máy nông nghiệp",
+      "Sản xuất vật liệu xây dựng",
+      "Khai thác và lọc hóa dầu mỏ"
+    ],
+    "correct_index": 0,
+    "explanation": "Ngành chế biến lương thực, thực phẩm là ngành công nghiệp mũi nhọn của vùng, góp phần nâng cao giá trị thương phẩm cho lúa gạo, trái cây và thủy hải sản xuất khẩu.",
+    "reward_skill": "Thực Nghệ Chấn Thiên"
+  },
+  {
+    "stage_id": 39,
+    "stage_title": "Văn Hóa Sông Nước Chợ Nổi",
+    "boss_name": "Thương Hồ Cái Răng",
+    "boss_hp": 2900,
+    "question": "Ngôi chợ nổi nào nổi tiếng tại thành phố Cần Thơ, đại diện cho nét văn hóa sinh hoạt thương hồ đặc trưng của người dân Nam Bộ?",
+    "options": [
+      "Chợ nổi Cái Răng",
+      "Chợ nổi Ngã Năm",
+      "Chợ nổi Cái Bè",
+      "Chợ nổi Trà Ôn"
+    ],
+    "correct_index": 0,
+    "explanation": "Chợ nổi Cái Răng (Cần Thơ) là biểu tượng du lịch nhân văn độc đáo, phản ánh phương thức giao thương trên sông nước đặc sắc của Đồng bằng sông Cửu Long.",
+    "reward_skill": "Thương Hồ Ba Động"
+  },
+  {
+    "stage_id": 40,
+    "stage_title": "Thách Thức Biến Đổi Khí Hậu",
+    "boss_name": "Đại Ma Vương Xâm Nhập Mặn",
+    "boss_hp": 3000,
+    "question": "Thách thức nghiêm trọng nhất do tác động của biến đổi khí hậu ảnh hưởng đến nông nghiệp vùng Đồng bằng sông Cửu Long hiện nay là gì?",
+    "options": [
+      "Xâm nhập mặn, hạn hán và sạt lở bờ sông bờ biển",
+      "Hiện tượng sương muối và băng giá kéo dài",
+      "Bão cát và hiện tượng hoang mạc hóa đất đai",
+      "Sụt lún do hoạt động khai thác mỏ kim loại"
+    ],
+    "correct_index": 0,
+    "explanation": "Nước biển dâng, lưu lượng sông Mê Công sụt giảm vào mùa khô dẫn đến xâm nhập mặn lấn sâu vào nội đồng, kết hợp tình trạng hạn hán và sạt lở đất nghiêm trọng.",
+    "reward_skill": "Đại Địa Hồi Sinh"
+  }
+]
