@@ -1,6 +1,7 @@
 // Multi-tier Vietnamese Audio TTS Engine
-// Tier 1: window.speechSynthesis with native Vietnamese voices (HoaiMy, Linh, Google tiếng Việt, vi-VN)
-// Tier 2: Client-side Audio Stream fallback (Google Translate TTS & Youdao TTS)
+// Tier 1: Zalo AI TTS via Vercel Serverless Endpoint (/api/zalo-tts?text=...)
+// Tier 2: window.speechSynthesis with native Vietnamese voices (HoaiMy, Linh, Google tiếng Việt, vi-VN)
+// Tier 3: Client-side Audio Stream fallback (Google Translate TTS & Youdao TTS)
 
 export class TTSEngine {
   constructor() {
@@ -40,16 +41,38 @@ export class TTSEngine {
     });
   }
 
-  speak(text, onEnded, onError) {
+  async speak(text, onEnded, onError) {
     const cleanText = text.replace(/[\n\r]+/g, ' ').trim();
     if (!cleanText) {
       if (onEnded) onEnded();
       return;
     }
 
+    // Tier 1: Zalo AI TTS Serverless Endpoint
+    try {
+      const res = await fetch(`/api/zalo-tts?text=${encodeURIComponent(cleanText)}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.url) {
+          this.playAudioUrl(data.url, onEnded, () => {
+            console.warn("Zalo AI audio URL play failed, falling back to Tier 2 WebSpeech");
+            this.speakWebSpeech(cleanText, onEnded, onError);
+          });
+          return;
+        }
+      }
+    } catch (e) {
+      console.warn("Zalo AI TTS fetch error, falling back to Tier 2 WebSpeech:", e);
+    }
+
+    // Tier 2: Web Speech API & Tier 3 Fallback
+    this.speakWebSpeech(cleanText, onEnded, onError);
+  }
+
+  speakWebSpeech(cleanText, onEnded, onError) {
     const viVoice = this.getVietnameseVoice();
 
-    // Tier 1: Web Speech API with native Vietnamese Voice
+    // Tier 2: Web Speech API with native Vietnamese Voice
     if (viVoice) {
       try {
         window.speechSynthesis.cancel();
@@ -68,7 +91,7 @@ export class TTSEngine {
         };
 
         utterance.onerror = (e) => {
-          console.warn("Tier 1 SpeechSynthesis error, falling back to Tier 2 audio stream:", e);
+          console.warn("Tier 2 SpeechSynthesis error, falling back to Tier 3 audio stream:", e);
           if (!handled) {
             handled = true;
             this.speakAudioStream(cleanText, onEnded, onError);
@@ -78,15 +101,15 @@ export class TTSEngine {
         window.speechSynthesis.speak(utterance);
         return;
       } catch (err) {
-        console.warn("Tier 1 exception, falling back to Tier 2 audio stream:", err);
+        console.warn("Tier 2 exception, falling back to Tier 3 audio stream:", err);
       }
     }
 
-    // Tier 2: Fallback Audio Stream (Google TTS & Youdao TTS)
+    // Tier 3: Fallback Audio Stream (Google TTS & Youdao TTS)
     this.speakAudioStream(cleanText, onEnded, onError);
   }
 
-  speakAudioStream(cleanText, onEnded, onError) {
+  playAudioUrl(url, onEnded, onError) {
     if (typeof window === 'undefined') return;
 
     if (window.currentAudioPlayer) {
@@ -96,51 +119,55 @@ export class TTSEngine {
       window.currentAudioPlayer = null;
     }
 
+    const audio = new Audio(url);
+    window.currentAudioPlayer = audio;
+
+    let finished = false;
+
+    audio.onended = () => {
+      if (!finished) {
+        finished = true;
+        if (onEnded) onEnded();
+      }
+    };
+
+    audio.onerror = () => {
+      if (!finished) {
+        finished = true;
+        if (onError) onError();
+        else if (onEnded) setTimeout(onEnded, 2000);
+      }
+    };
+
+    audio.play().catch((e) => {
+      console.warn("Audio play error:", e);
+      if (!finished) {
+        finished = true;
+        if (onError) onError();
+        else if (onEnded) setTimeout(onEnded, 2000);
+      }
+    });
+  }
+
+  speakAudioStream(cleanText, onEnded, onError) {
     const primaryUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=vi&client=tw-ob&q=${encodeURIComponent(cleanText)}`;
     const backupUrl = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(cleanText)}&le=vi`;
 
     let triedBackup = false;
-    let finished = false;
 
-    const playAudio = (url) => {
-      const audio = new Audio(url);
-      window.currentAudioPlayer = audio;
-
-      audio.onended = () => {
-        if (!finished) {
-          finished = true;
-          if (onEnded) onEnded();
-        }
-      };
-
-      audio.onerror = () => {
-        if (!triedBackup) {
-          triedBackup = true;
-          console.warn("Google TTS audio error, attempting Youdao TTS backup stream...");
-          playAudio(backupUrl);
-        } else {
-          console.warn("All audio TTS streams failed.");
-          if (!finished) {
-            finished = true;
-            if (onError) onError();
-            else if (onEnded) setTimeout(onEnded, 2000);
-          }
-        }
-      };
-
-      audio.play().catch((e) => {
-        console.warn("Audio play blocked or failed:", e);
-        if (!triedBackup) {
-          triedBackup = true;
-          playAudio(backupUrl);
-        } else if (!finished) {
-          finished = true;
-          if (onEnded) setTimeout(onEnded, 2000);
-        }
-      });
-    };
-
-    playAudio(primaryUrl);
+    this.playAudioUrl(primaryUrl, onEnded, () => {
+      if (!triedBackup) {
+        triedBackup = true;
+        console.warn("Google TTS audio error, attempting Youdao TTS backup stream...");
+        this.playAudioUrl(backupUrl, onEnded, () => {
+          if (onError) onError();
+          else if (onEnded) setTimeout(onEnded, 2000);
+        });
+      } else {
+        if (onError) onError();
+        else if (onEnded) setTimeout(onEnded, 2000);
+      }
+    });
   }
 
   stop() {
