@@ -1,6 +1,23 @@
 export default async function handler(req, res) {
-  const { text } = req.query;
-  if (!text) return res.status(400).json({ error: "Missing text" });
+  // Support text param from both GET query and POST body
+  let text = req.query?.text;
+  if (!text && req.body) {
+    if (typeof req.body === 'string') {
+      try {
+        const parsed = JSON.parse(req.body);
+        text = parsed.text;
+      } catch {
+        text = req.body;
+      }
+    } else {
+      text = req.body.text;
+    }
+  }
+
+  if (!text) {
+    return res.status(400).json({ error: "Missing text parameter" });
+  }
+
   try {
     const formData = new URLSearchParams();
     formData.append("input", text);
@@ -20,7 +37,7 @@ export default async function handler(req, res) {
     if (data.error_code === 0 && data.data?.url) {
       return res.status(200).json({ url: data.data.url });
     }
-    return res.status(500).json({ error: data.message || "Zalo API failed" });
+    return res.status(500).json({ error: data.message || "Zalo API failed", details: data });
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
