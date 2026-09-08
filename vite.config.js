@@ -18,20 +18,28 @@ const zaloHandler = async (req, res) => {
   let bodyText = '';
   req.on('data', chunk => { bodyText += chunk; });
   req.on('end', async () => {
-    let text = '';
+    let rawText = '';
     const urlObj = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
-    text = urlObj.searchParams.get('text') || '';
+    rawText = urlObj.searchParams.get('text') || '';
 
-    if (!text && bodyText) {
+    if (!rawText && bodyText) {
       try {
         const parsed = JSON.parse(bodyText);
-        text = parsed.text || '';
+        rawText = parsed.text || '';
       } catch {
-        text = bodyText;
+        rawText = bodyText;
       }
     }
 
-    if (!text || text.trim() === '') {
+    if (rawText) {
+      try {
+        rawText = decodeURIComponent(rawText);
+      } catch {}
+    }
+
+    const text = (rawText || '').trim();
+
+    if (!text) {
       res.statusCode = 400;
       res.setHeader('Content-Type', 'application/json');
       return res.end(JSON.stringify({ error: 'No text provided' }));
@@ -39,7 +47,7 @@ const zaloHandler = async (req, res) => {
 
     try {
       const payload = new URLSearchParams();
-      payload.append("input", text.trim());
+      payload.append("input", text.substring(0, 500));
       payload.append("speaker_id", "1"); // Nữ Bắc chuẩn
       payload.append("speed", "0.95");
       payload.append("encode_type", "0");
@@ -53,14 +61,32 @@ const zaloHandler = async (req, res) => {
         body: payload.toString()
       });
 
-      const data = await zaloRes.json();
+      const data = await zaloRes.json().catch(() => null);
+
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json');
-      return res.end(JSON.stringify(data));
+
+      if (data && data.error_code === 0 && data.data?.url) {
+        return res.end(JSON.stringify(data));
+      }
+
+      const googleFallbackUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=vi&client=tw-ob&q=${encodeURIComponent(text)}`;
+      return res.end(JSON.stringify({
+        error_code: 0,
+        fallback: true,
+        message: data?.message || "Zalo API fallback to Google TTS",
+        data: { url: googleFallbackUrl }
+      }));
     } catch (error) {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json');
-      return res.end(JSON.stringify({ error_code: 500, message: error.message }));
+      const googleFallbackUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=vi&client=tw-ob&q=${encodeURIComponent(text || "Bài giảng cô giáo")}`;
+      return res.end(JSON.stringify({
+        error_code: 0,
+        fallback: true,
+        message: error.message,
+        data: { url: googleFallbackUrl }
+      }));
     }
   });
 };
