@@ -1,5 +1,5 @@
-// Pure Zalo AI Text-To-Speech Engine via /api/zalo-tts Endpoint
-// ABSOLUTELY ZERO window.speechSynthesis or WebSpeech API
+// Pure Zalo AI Text-To-Speech Engine via POST /api/zalo-tts Endpoint
+// ABSOLUTELY ZERO window.speechSynthesis, WebSpeech API, or ResponsiveVoice
 
 const audioCache = {};
 
@@ -16,17 +16,17 @@ export class TTSEngine {
     this.onErrorCallback = null;
   }
 
-  // Làm sạch văn bản: Loại bỏ ký tự đặc biệt, markdown để tránh Zalo API bị treo / lỗi 404
+  // Làm sạch văn bản: Loại bỏ ký tự đặc biệt, markdown để tránh Zalo API bị treo / lỗi
   cleanTextForZalo(text) {
     if (!text) return '';
     return text
-      .replace(/[*#_~`@$%^&()[\]{}|\\/<>+=]/g, ' ') // Xóa ký tự đặc biệt
+      .replace(/[*#_~`@$%^&()[\]{}|\\/<>+=]/g, ' ')
       .replace(/[\n\r]+/g, ' ')
       .replace(/\s+/g, ' ')
       .trim();
   }
 
-  // Tách bài giảng dài thành các câu siêu ngắn (dưới 100-120 ký tự)
+  // Tách bài giảng dài thành các câu ngắn dưới 110 ký tự
   splitIntoSentences(text) {
     if (!text) return [];
 
@@ -42,7 +42,6 @@ export class TTSEngine {
       if (sentence.length <= 110) {
         result.push(sentence);
       } else {
-        // Tách tiếp theo dấu phẩy, chấm phẩy
         const parts = sentence.split(/(?<=[,;])\s+/).filter(p => p.trim().length > 0);
         let current = '';
         for (let part of parts) {
@@ -94,7 +93,7 @@ export class TTSEngine {
 
     const currentText = this.audioQueue[this.currentIndex];
 
-    // Cập nhật trạng thái "Đang tải giọng cô giáo..." cho UI
+    // Cập nhật trạng thái cho UI
     this.isLoading = true;
     if (this.onProgressCallback) {
       this.onProgressCallback({
@@ -108,7 +107,7 @@ export class TTSEngine {
       });
     }
 
-    // 1. Kiểm tra Audio Cache trước
+    // 1. Kiểm tra Cache âm thanh trước
     if (audioCache[currentText]) {
       this.isLoading = false;
       if (this.isPlaying && !this.isPaused) {
@@ -117,17 +116,15 @@ export class TTSEngine {
       return;
     }
 
-    // 2. Gọi API /api/zalo-tts (Phương thức POST)
+    // 2. Gửi request POST đến /api/zalo-tts Serverless Function
     try {
-      const response = await fetch("/api/zalo-tts", {
+      const res = await fetch("/api/zalo-tts", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ text: currentText })
       });
 
-      const data = await response.json();
+      const data = await res.json();
 
       if (data.error_code === 0 && data.data?.url) {
         audioCache[currentText] = data.data.url;
@@ -136,18 +133,14 @@ export class TTSEngine {
           this.playAudioUrl(data.data.url, currentText);
         }
       } else {
-        const errorMsg = "Lỗi Zalo API: " + JSON.stringify(data);
-        console.error(errorMsg);
-        alert(errorMsg);
+        console.error("Zalo Error:", data);
         this.stop();
-        if (this.onErrorCallback) this.onErrorCallback(errorMsg);
+        if (this.onErrorCallback) this.onErrorCallback(data);
       }
     } catch (err) {
-      const errorMsg = "Lỗi kết nối /api/zalo-tts: " + err.message;
-      console.error(errorMsg, err);
-      alert(errorMsg);
+      console.error("Zalo Network Error:", err);
       this.stop();
-      if (this.onErrorCallback) this.onErrorCallback(errorMsg);
+      if (this.onErrorCallback) this.onErrorCallback(err.message);
     }
   }
 
@@ -186,18 +179,13 @@ export class TTSEngine {
     };
 
     audio.onerror = (e) => {
-      const errorMsg = "Lỗi 404 khi tải file âm thanh Zalo AI: " + url;
-      console.error(errorMsg, e);
-      alert(errorMsg);
+      console.error("Zalo Audio Stream Playback Error:", e);
       this.stop();
-      if (this.onErrorCallback) this.onErrorCallback(errorMsg);
     };
 
     audio.play().catch(err => {
       console.error("Phát âm thanh bị chặn bởi Autoplay Policy:", err);
-      alert("Phát âm thanh bị chặn. Vui lòng bấm vào nút 'Nghe cô giảng bài' lần nữa.");
       this.stop();
-      if (this.onErrorCallback) this.onErrorCallback(err.message);
     });
   }
 
